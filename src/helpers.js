@@ -10,7 +10,7 @@ export const flatDeps = (deps = {}) => {
 };
 
 const computeVersion = (version) => {
-  return version.replace(/[.^#]/g, '')
+  return version.replace(/[.^#]/g, '');
 }
 
 export const resolveDeps = (deps = []) => {
