@@ -9,14 +9,17 @@ export const flatDeps = (deps = {}) => {
     }, []);
 };
 
+const computeVersion = (version) => {
+  return version.replace(/[.^#]/g, '')
+}
+
 export const resolveDeps = (deps = []) => {
   return deps
     .reduce((acc, k) => {
       const [name, version] = k.split('@V');
-      const computedVersion = version.replace(/\./g, '')
-      const storedVersion = /(\d\.?)+/.exec(acc[name] || '0.0.0')[0].replace(/\./g, '');
+      const storedVersion = acc[name] || '0.0.0';
 
-      acc[name] = storedVersion && (parseFloat(storedVersion) > parseFloat(computedVersion)) ? storedVersion : version;
+      acc[name] = storedVersion && parseFloat(computeVersion(storedVersion)) > parseFloat(computeVersion(version)) ? storedVersion : version;
 
       return acc;
     }, {});
