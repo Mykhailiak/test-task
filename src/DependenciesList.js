@@ -1,7 +1,7 @@
 import React from 'react';
 import Dependency from './Dependency';
 
-const DependenciesList = ({ list, packageName }) => (
+const DependenciesList = ({ list }) => (
   <ul>
     {Object.entries(list).map(([key, value]) => {
       const hasDeps = typeof value !== 'string';
@@ -11,7 +11,7 @@ const DependenciesList = ({ list, packageName }) => (
         <Dependency
           key={key}
           hasDeps={hasDeps}
-          dependencies={value.dependencies || {}}
+          dependencies={value.dependencies}
           name={name}
           List={DependenciesList}
         />

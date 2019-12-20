@@ -2,29 +2,8 @@ import React, { PureComponent } from 'react';
 import './App.css';
 import { fetchPackageJson } from './api';
 import DependenciesList from './DependenciesList';
+import { flatDeps, resolveDeps } from './helpers';
 
-const flatDeps = (deps = {}) => {
-  return Object.entries(deps)
-    .reduce((acc, [k, v]) => {
-      if (typeof v !== 'string') {
-        return acc.concat(flatDeps(v.dependencies));
-      }
-
-      return acc.concat(`${k}@V${v}`);
-    }, []);
-};
-
-const resolveDeps = (deps = []) => {
-  return deps
-    .reduce((acc, k) => {
-      const [name, version] = k.split('@V');
-      const storedVersion = acc[name];
-
-      acc[name] = storedVersion && parseFloat(storedVersion) > parseFloat(version) ? storedVersion : version;
-
-      return acc;
-    }, {});
-}
 
 export default class App extends PureComponent {
   state = {
